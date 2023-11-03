@@ -3,10 +3,10 @@ const path = require('path');
 const express = require('express');
 const { exec } = require('child_process');
 const { MongoClient } = require('mongodb');
-const func = require('./functions.js');
+const func = require('./common.js');
 
 const app = express();
-const port = process.env.PORT || 3004;
+const port = process.env.PORT || 3008;
 
 const username = encodeURIComponent('abdul');
 const password = encodeURIComponent('nf@99');
@@ -116,8 +116,15 @@ app.post('/api/truecaller-search', async (req, res) => {
                 return;
             }
 
+            const json_success = {
+                'success': jsonResponse.data ? 'true' : 'false',
+                'server' : data_nums,
+                'total_servers' : count,
+                'result': jsonResponse.data
+            };
+            
             // Respond with the JSON output
-            res.json(jsonResponse);
+            res.json(json_success);
         });
     } catch (err) {
         console.error('MongoDB connection error:', err);
