@@ -25,7 +25,7 @@ app.post('/api/truecaller-search', async (req, res) => {
     const { mobile } = req.body;
 
         const clientIP = req.ip;
-        const allowedIPs = ['128.199.22.142', '139.59.35.194'];
+        const allowedIPs = ['139.59.95.14', '139.59.35.194'];
         if (!allowedIPs.some(allowedIP => clientIP.includes(allowedIP))) {
             return res.status(404).json({ error: 'Not allowed from this IP' });
         }
