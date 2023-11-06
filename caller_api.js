@@ -27,7 +27,16 @@ app.post('/api/truecaller-search', async (req, res) => {
         const clientIP = req.ip;
         const allowedIPs = ['139.59.95.14', '139.59.35.194'];
         if (!allowedIPs.some(allowedIP => clientIP.includes(allowedIP))) {
-            return res.status(404).json({ error: 'Not allowed from this IP' });
+             res.status(404).json({ error: 'Not allowed from this IP' });
+             return;
+        }
+
+        const mobilePattern = /^\+\d{1,4}\d{8,}$/;
+
+        if (!mobilePattern.test(mobile)) {
+        // Invalid mobile number
+        res.status(400).json({ error: 'Invalid mobile number' });
+            return;
         }
     
 
@@ -107,11 +116,13 @@ app.post('/api/truecaller-search', async (req, res) => {
                 res.json(updatedResponse);
             } else {
                 res.status(404).json({ error: 'Not enough auth keys after update' });
+                return;
             }
         }
     } catch (err) {
         console.error('MongoDB connection error:', err);
         res.status(500).json({ error: 'Internal Server Error' });
+        return;
     } finally {
         // Close the MongoDB client
         await client.close();
