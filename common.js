@@ -34,6 +34,22 @@ function create_file_dir(folderPath) {
     }
 }
 
+/**
+ * Executes a Truecaller search command with the given mobile number and provides the result via a callback.
+ *
+ * @param {string} mobile - The mobile number to search on Truecaller.
+ * @param {number} data_nums - The current data number of server from which request is sent.
+ * @param {number} count - The total count of proxy servers.
+ * @param {function} callback - The callback function to handle the result.
+ *
+ * @callback callback
+ * @param {object} result - The result of the Truecaller search.
+ * @param {string} result.success - Indicates whether the search was successful ('true' or 'false').
+ * @param {number} result.server - The current data number.
+ * @param {number} result.total_servers - The total count of data.
+ * @param {object} result.result - The search result data, if successful.
+ * @param {string} result.error - An error message if the search encountered any issues.
+ */
 function get_exec_data(mobile, data_nums, count, callback) {
     // Construct the command to execute
     const command = `proxychains npx truecallerjs -s ${mobile} --json`;
@@ -78,6 +94,7 @@ function get_exec_data(mobile, data_nums, count, callback) {
         callback(json_success);
     });
 }
+
 
 module.exports = {
     write_file,
